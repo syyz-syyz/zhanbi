@@ -72,9 +72,12 @@ def main():
     st.write('此工具可用于统计 Excel 文件中中英文 token 的词频，并支持按不同条件筛选和导出结果。具体来说，它会对指定列中的文本数据进行处理，分别统计中文和英文 token 的出现次数和占比。')
     st.write('### 使用示例')
     st.write('#### 中文示例')
-    st.write('假设 Excel 文件某列中有文本 “我爱自然语言处理”，设置中文分词最小长度为 2。工具会将其拆分为 “我爱”、“自然”、“语言”、“处理”、“自然语言”、“语言处理” 等 token，并统计每个 token 的出现次数和占比。')
+    st.write('假设 Excel 文件某列中有文本 “我爱学习”，设置中文分词最小长度为 3。工具会将其拆分为 “我爱学”、“爱学习”、“我爱学习”，并统计每个 token 的出现次数和占比。')
     st.write('#### 英文示例')
-    st.write('假设 Excel 文件某列中有文本 “I love natural language processing”，设置英文分词最小单词个数为 2。工具会将其拆分为 “I love”、“love natural”、“natural language”、“language processing” 等 token，并统计每个 token 的出现次数和占比。')
+    st.write('假设 Excel 文件某列中有文本 “I love learning”，设置英文分词最小单词个数为 2。工具会将其拆分为 “I love”、“love learning”、“I love learning”，并统计每个 token 的出现次数和占比。')
+    st.write('### 使用示例')
+    st.write('#### 中英混合示例')
+    st.write('假设 Excel 文件某列中有文本 “我爱学习 I love learning”，设置中文分词最小长度为 3，设置英文分词最小单词个数为 3。工具会将其拆分为 “我爱学”、“爱学习”、“我爱学习”、“I love learning”，并统计每个 token 的出现次数和占比。')
 
     uploaded_file = st.file_uploader("请上传 Excel 文件", type=["xlsx"])
     # 将中文分词的最小长度默认值设置为 3
@@ -102,7 +105,7 @@ def main():
         result_df = pd.DataFrame(all_data, columns=columns)
         result_df = result_df.sort_values(by='占比', ascending=False)
 
-        option = st.radio('选择显示结果类型', ('全部', '中文', '英文'))
+        option = st.radio('选择输入和输出文字类型', ('全部', '中文', '英文'))
         if option == '全部':
             filtered_df = result_df
         elif option == '中文':
