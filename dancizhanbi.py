@@ -68,11 +68,11 @@ def to_excel(df):
 
 
 def main():
-    st.title('token 词频统计小工具')
-    st.write('此工具可用于统计 Excel 文件中中英文 token 的词频，并支持按不同条件筛选和导出结果。')
-    uploaded_file = st.file_uploader("请上传 Excel 文件", type=["xlsx"])
-    min_chinese_length = st.number_input("请输入中文token的最小长度", min_value=1, value=1, step=1)
-    min_english_word_count = st.number_input("请输入英文token的最小长度", min_value=1, value=1, step=1)
+    st.title('token词频统计小工具')
+    st.write('此工具可用于统计Excel文件中中英文token的词频，并支持按不同条件筛选和导出结果。')
+    uploaded_file = st.file_uploader("请上传Excel文件", type=["xlsx"])
+    min_chinese_length = st.number_input("请输入中文分词的最小长度", min_value=1, value=1, step=1)
+    min_english_word_count = st.number_input("请输入英文分词的最小单词个数", min_value=1, value=1, step=1)
 
     if uploaded_file is not None:
         try:
@@ -103,12 +103,12 @@ def main():
         else:
             filtered_df = result_df[result_df['语言类型'] == '英文']
 
-        st.dataframe(filtered_df.head(20))
+        st.dataframe(filtered_df.head(20), use_container_width=True, hide_index=True)
 
         if st.button('导出结果'):
             df_xlsx = to_excel(filtered_df)
             st.download_button(
-                label='点击下载 Excel 文件',
+                label='点击下载Excel文件',
                 data=df_xlsx,
                 file_name='output.xlsx',
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -117,4 +117,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
