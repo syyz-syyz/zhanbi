@@ -106,10 +106,10 @@ def main():
 
         st.dataframe(filtered_df.head(20), use_container_width=True, hide_index=True)
 
-        if st.button('导出并下载结果为 Excel 文件'):
+        if st.button('导出文件'):
             df_xlsx = to_excel(filtered_df)
             st.download_button(
-                label='导出并下载结果为 Excel 文件',
+                label='下载结果为 Excel 文件',
                 data=df_xlsx,
                 file_name='output.xlsx',
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
