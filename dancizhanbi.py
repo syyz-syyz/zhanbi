@@ -94,7 +94,8 @@ def main():
         all_data = all_chinese_data + all_english_data
         columns = ['token length', 'token', '词频', '占比', '语言类型', '原词']
         result_df = pd.DataFrame(all_data, columns=columns)
-        result_df = result_df.sort_values(by='占比', ascending=False)
+        # 按“占比”降序排序，当“占比”相同时，按“token length”降序排序
+        result_df = result_df.sort_values(by=['占比', 'token length'], ascending=[False, False])
 
         option = st.radio('选择输入和输出文字类型', ('全部', '中文', '英文'))
         if option == '全部':
@@ -118,4 +119,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
