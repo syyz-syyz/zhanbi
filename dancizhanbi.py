@@ -75,7 +75,6 @@ def main():
     st.write('假设 Excel 文件某列中有文本 “我爱学习”，设置中文分词最小长度为 3。工具会将其拆分为 “我爱学”、“爱学习”、“我爱学习”，并统计每个 token 的出现次数和占比。')
     st.write('#### 英文示例')
     st.write('假设 Excel 文件某列中有文本 “I love learning”，设置英文分词最小单词个数为 2。工具会将其拆分为 “I love”、“love learning”、“I love learning”，并统计每个 token 的出现次数和占比。')
-    st.write('### 使用示例')
     st.write('#### 中英混合示例')
     st.write('假设 Excel 文件某列中有文本 “我爱学习 I love learning”，设置中文分词最小长度为 3，设置英文分词最小单词个数为 3。工具会将其拆分为 “我爱学”、“爱学习”、“我爱学习”、“I love learning”，并统计每个 token 的出现次数和占比。')
 
