@@ -74,7 +74,11 @@ def main():
         except Exception as e:
             st.error(f"读取文件时出现错误: {e}")
             return
-        data_set = df.iloc[:, 0].tolist()
+        # 获取所有列名
+        column_names = df.columns.tolist()
+        # 让用户选择列
+        selected_column = st.selectbox("请选择要处理的列", column_names)
+        data_set = df[selected_column].tolist()
         total_rows = len(data_set)
 
         all_chinese_data = process_chinese(data_set, total_rows, min_chinese_length)
