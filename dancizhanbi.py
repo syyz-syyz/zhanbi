@@ -71,7 +71,8 @@ def main():
     st.title('token词频统计小工具')
     st.write('此工具可用于统计Excel文件中中英文token的词频，并支持按不同条件筛选和导出结果。')
     uploaded_file = st.file_uploader("请上传Excel文件", type=["xlsx"])
-    min_chinese_length = st.number_input("请输入中文分词的最小长度", min_value=1, value=1, step=1)
+    # 将中文分词的最小长度默认值设置为 3
+    min_chinese_length = st.number_input("请输入中文分词的最小长度", min_value=1, value=3, step=1)
     min_english_word_count = st.number_input("请输入英文分词的最小单词个数", min_value=1, value=1, step=1)
 
     if uploaded_file is not None:
@@ -91,7 +92,7 @@ def main():
         all_english_data = process_english(data_set, total_rows, min_english_word_count)
 
         all_data = all_chinese_data + all_english_data
-        columns = ['单词个数', 'token', '个数', '占比', '语言类型', '原词']
+        columns = ['token length', 'token', '词频', '占比', '语言类型', '原词']
         result_df = pd.DataFrame(all_data, columns=columns)
         result_df = result_df.sort_values(by='占比', ascending=False)
 
@@ -117,3 +118,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
