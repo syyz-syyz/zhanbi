@@ -31,22 +31,15 @@ def process_chinese(data_set, total_rows, min_length):
 
 def process_english(data_set, total_rows, min_word_count):
     english_word_count = defaultdict(lambda: [0, set()])
-    english_pattern = r'\([a-zA-Z\s]+\)|[a-zA-Z]+'
+    english_pattern = r'[a-zA-Z]+'
     for line in data_set:
         line = str(line)
-        english_matches = re.findall(english_pattern, line)
-        for match in english_matches:
-            if match.startswith('(') and match.endswith(')'):
-                words = match[1:-1].strip().split()
-            else:
-                words = match.split()
-            # 对单词列表进行组合切分
-            for i in range(len(words)):
-                for j in range(i + min_word_count, min(i + 11, len(words) + 1)):
-                    word = " ".join(words[i:j])
-                    english_word_count[word][0] += 1
-                    english_word_count[word][1].add(match)
-
+        words = re.findall(english_pattern, line)
+        for i in range(len(words)):
+            for j in range(i + min_word_count, len(words) + 1):
+                word = " ".join(words[i:j])
+                english_word_count[word][0] += 1
+                english_word_count[word][1].add(" ".join(words))
     all_english_data = []
     for word, (count, original_words) in english_word_count.items():
         word_num = len(word.split())
@@ -73,7 +66,7 @@ def main():
     st.write('#### 中文示例')
     st.write('假设 Excel 文件某列中有文本 “我爱学习”，设置中文分词最小长度为 3。工具会将其拆分为 “我爱学”、“爱学习”、“我爱学习”，并统计每个 token 的出现次数和占比。')
     st.write('#### 英文示例')
-    st.write('假设 Excel 文件某列中有文本 “I love learning”，设置英文分词最小单词个数为 2。工具会将其拆分为 “I love”、“love learning”、“I love learning”，并统计每个 token 的出现次数和占比。')
+    st.write('假设 Excel 文件某列中有文本 “I love learning”，设置英文分词最小单词个数为 1。工具会将其拆分为 “I”、“love”、“learning”、“I love”、“love learning”、“I love learning”，并统计每个 token 的出现次数和占比。')
     st.write('#### 中英混合示例')
     st.write('假设 Excel 文件某列中有文本 “我爱学习 I love learning”，设置中文分词最小长度为 3，设置英文分词最小单词个数为 3。工具会将其拆分为 “我爱学”、“爱学习”、“我爱学习”、“I love learning”，并统计每个 token 的出现次数和占比。')
 
@@ -125,3 +118,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
