@@ -71,8 +71,8 @@ def main():
     st.title('token 词频统计小工具')
     st.write('此工具可用于统计 Excel 文件中中英文 token 的词频，并支持按不同条件筛选和导出结果。')
     uploaded_file = st.file_uploader("请上传 Excel 文件", type=["xlsx"])
-    min_chinese_length = st.number_input("请输入中文分词的最小长度", min_value=1, value=1, step=1)
-    min_english_word_count = st.number_input("请输入英文分词的最小单词个数", min_value=1, value=1, step=1)
+    min_chinese_length = st.number_input("请输入中文token的最小长度", min_value=1, value=1, step=1)
+    min_english_word_count = st.number_input("请输入英文token的最小长度", min_value=1, value=1, step=1)
 
     if uploaded_file is not None:
         try:
