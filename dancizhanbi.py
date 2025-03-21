@@ -38,16 +38,15 @@ def process_english(data_set, total_rows, min_word_count):
         for match in english_matches:
             if match.startswith('(') and match.endswith(')'):
                 words = match[1:-1].strip().split()
-                if len(words) >= min_word_count:
-                    word = " ".join(words)
-                    english_word_count[word][0] += 1
-                    english_word_count[word][1].add(match)
             else:
                 words = match.split()
-                if len(words) >= min_word_count:
-                    word = " ".join(words)
+            # 对单词列表进行组合切分
+            for i in range(len(words)):
+                for j in range(i + min_word_count, min(i + 11, len(words) + 1)):
+                    word = " ".join(words[i:j])
                     english_word_count[word][0] += 1
                     english_word_count[word][1].add(match)
+
     all_english_data = []
     for word, (count, original_words) in english_word_count.items():
         word_num = len(word.split())
@@ -126,4 +125,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
