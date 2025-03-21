@@ -106,9 +106,9 @@ def main():
 
         st.dataframe(filtered_df.head(20), use_container_width=True, hide_index=True)
 
-        if st.button('导出并下载结果为 Excel 文件'):
-            df_xlsx = to_excel(filtered_df)
+        
             st.download_button(
+                df_xlsx = to_excel(filtered_df)
                 label='导出并下载结果为 Excel 文件',
                 data=df_xlsx,
                 file_name='output.xlsx',
