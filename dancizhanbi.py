@@ -64,11 +64,11 @@ def main():
     st.write('此工具可用于统计Excel文件中中英文Token的词频（次数和占比），并支持按不同条件筛选，如中英文、指定列。')
     with st.expander("使用示例", expanded=False):
         st.write('#### 中文示例')
-        st.write('假设Excel文件某列中有文本“我爱学习”，设置中文分词最小长度为3。工具会将其拆分为“我爱学”、“爱学习”、“我爱学习”，并统计每个token的出现次数和占比。')
+        st.write('假设Excel文件某列中有文本“我爱学习”，设置中文分词最小长度为3。工具会将其拆分为“我爱学”、“爱学习”、“我爱学习”，并统计每个Token的出现次数和占比。')
         st.write('#### 英文示例')
-        st.write('假设Excel文件某列中有文本“I love learning”，设置英文分词最小单词个数为1。工具会将其拆分为“I”、“love”、“learning”、“I love”、“love learning”、“I love learning”，并统计每个token的出现次数和占比。')
+        st.write('假设Excel文件某列中有文本“I love learning”，设置英文分词最小单词个数为1。工具会将其拆分为“I”、“love”、“learning”、“I love”、“love learning”、“I love learning”，并统计每个Token的出现次数和占比。')
         st.write('#### 中英混合示例')
-        st.write('假设Excel文件某列中有文本“我爱学习I love learning”，设置中文分词最小长度为3，设置英文分词最小单词个数为3。工具会将其拆分为“我爱学”、“爱学习”、“我爱学习”、“I love learning”，并统计每个token的出现次数和占比。')
+        st.write('假设Excel文件某列中有文本“我爱学习I love learning”，设置中文分词最小长度为3，设置英文分词最小单词个数为3。工具会将其拆分为“我爱学”、“爱学习”、“我爱学习”、“I love learning”，并统计每个Token的出现次数和占比。')
 
     uploaded_file = st.file_uploader("请上传Excel文件", type=["xlsx"])
     # 将中文分词的最小长度默认值设置为3
