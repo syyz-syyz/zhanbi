@@ -69,8 +69,14 @@ def to_excel(df):
 
 def main():
     st.title('token词频统计小工具')
-    st.write('此工具可用于统计Excel文件中中英文token的词频，并支持按不同条件筛选和导出结果。')
-    uploaded_file = st.file_uploader("请上传Excel文件", type=["xlsx"])
+    st.write('此工具可用于统计 Excel 文件中中英文 token 的词频，并支持按不同条件筛选和导出结果。具体来说，它会对指定列中的文本数据进行处理，分别统计中文和英文 token 的出现次数和占比。')
+    st.write('### 使用示例')
+    st.write('#### 中文示例')
+    st.write('假设 Excel 文件某列中有文本 “我爱自然语言处理”，设置中文分词最小长度为 2。工具会将其拆分为 “我爱”、“自然”、“语言”、“处理”、“自然语言”、“语言处理” 等 token，并统计每个 token 的出现次数和占比。')
+    st.write('#### 英文示例')
+    st.write('假设 Excel 文件某列中有文本 “I love natural language processing”，设置英文分词最小单词个数为 2。工具会将其拆分为 “I love”、“love natural”、“natural language”、“language processing” 等 token，并统计每个 token 的出现次数和占比。')
+
+    uploaded_file = st.file_uploader("请上传 Excel 文件", type=["xlsx"])
     # 将中文分词的最小长度默认值设置为 3
     min_chinese_length = st.number_input("请输入中文分词的最小长度", min_value=1, value=3, step=1)
     min_english_word_count = st.number_input("请输入英文分词的最小单词个数", min_value=1, value=1, step=1)
@@ -106,10 +112,10 @@ def main():
 
         st.dataframe(filtered_df.head(20), use_container_width=True, hide_index=True)
 
-        if st.button('导出结果'):
+        if st.button('导出结果为 Excel 文件'):
             df_xlsx = to_excel(filtered_df)
             st.download_button(
-                label='点击下载Excel文件',
+                label='开始下载',
                 data=df_xlsx,
                 file_name='output.xlsx',
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
