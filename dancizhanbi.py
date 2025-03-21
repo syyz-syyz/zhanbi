@@ -61,19 +61,19 @@ def to_excel(df):
 
 def main():
     st.title('token词频统计小工具')
-    st.write('此工具可用于统计 Excel 文件中中英文 token 的词频（次数和占比），并支持按不同条件筛选，如中英文、指定列。')
-    st.write('### 使用示例')
-    st.write('#### 中文示例')
-    st.write('假设 Excel 文件某列中有文本 “我爱学习”，设置中文分词最小长度为 3。工具会将其拆分为 “我爱学”、“爱学习”、“我爱学习”，并统计每个 token 的出现次数和占比。')
-    st.write('#### 英文示例')
-    st.write('假设 Excel 文件某列中有文本 “I love learning”，设置英文分词最小单词个数为 1。工具会将其拆分为 “I”、“love”、“learning”、“I love”、“love learning”、“I love learning”，并统计每个 token 的出现次数和占比。')
-    st.write('#### 中英混合示例')
-    st.write('假设 Excel 文件某列中有文本 “我爱学习 I love learning”，设置中文分词最小长度为 3，设置英文分词最小单词个数为 3。工具会将其拆分为 “我爱学”、“爱学习”、“我爱学习”、“I love learning”，并统计每个 token 的出现次数和占比。')
+    st.write('此工具可用于统计Excel文件中中英文token的词频，并支持按不同条件筛选和导出结果。具体来说，它会对指定列中的文本数据进行处理，分别统计中文和英文token的出现次数和占比。')
+    with st.expander("使用示例", expanded=False):
+        st.write('#### 中文示例')
+        st.write('假设Excel文件某列中有文本“我爱学习”，设置中文分词最小长度为3。工具会将其拆分为“我爱学”、“爱学习”、“我爱学习”，并统计每个token的出现次数和占比。')
+        st.write('#### 英文示例')
+        st.write('假设Excel文件某列中有文本“I love learning”，设置英文分词最小单词个数为1。工具会将其拆分为“I”、“love”、“learning”、“I love”、“love learning”、“I love learning”，并统计每个token的出现次数和占比。')
+        st.write('#### 中英混合示例')
+        st.write('假设Excel文件某列中有文本“我爱学习I love learning”，设置中文分词最小长度为3，设置英文分词最小单词个数为3。工具会将其拆分为“我爱学”、“爱学习”、“我爱学习”、“I love learning”，并统计每个token的出现次数和占比。')
 
-    uploaded_file = st.file_uploader("请上传 Excel 文件", type=["xlsx"])
-    # 将中文分词的最小长度默认值设置为 3
-    min_chinese_length = st.number_input("中文Token的最小长度（可调整）", min_value=1, value=3, step=1)
-    min_english_word_count = st.number_input("英文Token的最小单词个数（可调整）", min_value=1, value=1, step=1)
+    uploaded_file = st.file_uploader("请上传Excel文件", type=["xlsx"])
+    # 将中文分词的最小长度默认值设置为3
+    min_chinese_length = st.number_input("请输入中文分词的最小长度", min_value=1, value=3, step=1)
+    min_english_word_count = st.number_input("请输入英文分词的最小单词个数", min_value=1, value=1, step=1)
 
     if uploaded_file is not None:
         try:
@@ -110,7 +110,7 @@ def main():
         if st.button('导出文件'):
             df_xlsx = to_excel(filtered_df)
             st.download_button(
-                label='下载结果为 Excel 文件',
+                label='下载结果为Excel文件',
                 data=df_xlsx,
                 file_name='output.xlsx',
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
