@@ -4,21 +4,30 @@ from collections import defaultdict
 import re
 import streamlit as st
 from io import BytesIO
+import jieba
 
 
-def process_chinese(data_set, total_rows, min_length):
+def process_chinese(data_set, total_rows, min_length, use_jieba=False):
     chinese_word_count = defaultdict(lambda: [0, set()])
     chinese_pattern = re.compile(r'[\u4e00-\u9fa5]+')
     for line in data_set:
         line = str(line)
-        chinese_matches = chinese_pattern.findall(line)
-        for match in chinese_matches:
-            for start in range(len(match)):
-                for end in range(start + 1, min(start + 11, len(match) + 1)):
-                    word = match[start:end]
-                    if len(word) >= min_length:
-                        chinese_word_count[word][0] += 1
-                        chinese_word_count[word][1].add(match)
+        if use_jieba:
+            # 使用结巴分词
+            words = jieba.lcut(line)
+            for word in words:
+                if len(word) >= min_length:
+                    chinese_word_count[word][0] += 1
+                    chinese_word_count[word][1].add(line)
+        else:
+            chinese_matches = chinese_pattern.findall(line)
+            for match in chinese_matches:
+                for start in range(len(match)):
+                    for end in range(start + 1, min(start + 11, len(match) + 1)):
+                        word = match[start:end]
+                        if len(word) >= min_length:
+                            chinese_word_count[word][0] += 1
+                            chinese_word_count[word][1].add(match)
     all_chinese_data = []
     for word, (count, original_words) in chinese_word_count.items():
         word_num = len(word)
@@ -72,13 +81,12 @@ def main():
         st.write('#### 中英混合示例')
         st.write('假设Excel文件某列中有文本“我爱学习I love learning”，设置中文分词最小长度为3，设置英文分词最小单词个数为3。工具会将其拆分为“我爱学”、“爱学习”、“我爱学习”、“I love learning”，并统计每个Token的出现次数和占比。')
 
-
-
-    
     uploaded_file = st.file_uploader("请上传Excel文件", type=["xlsx"])
     # 将中文分词的最小长度默认值设置为3
     min_chinese_length = st.number_input("中文Token的最小长度（可调整）", min_value=1, value=3, step=1)
     min_english_word_count = st.number_input("英文Token的最小单词个数（可调整）", min_value=1, value=1, step=1)
+    # 添加是否使用结巴分词的选项
+    use_jieba = st.checkbox("使用结巴分词进行中文分词")
 
     if uploaded_file is not None:
         try:
@@ -93,7 +101,7 @@ def main():
         data_set = df[selected_column].tolist()
         total_rows = len(data_set)
 
-        all_chinese_data = process_chinese(data_set, total_rows, min_chinese_length)
+        all_chinese_data = process_chinese(data_set, total_rows, min_chinese_length, use_jieba)
         all_english_data = process_english(data_set, total_rows, min_english_word_count)
 
         all_data = all_chinese_data + all_english_data
